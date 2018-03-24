@@ -1,0 +1,16 @@
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\dao\AuthorizeDao.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\query\AuthorizeQuery.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\web\model\controller\AuthorizeModelController.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\service\impl\AuthorizeServiceImpl.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\model\Authorize.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\util\PlatformXmlModuleMakerUtils.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\web\model\controller\aspect\logger\AuthorizerModelControllerLogger.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\util\IPlatformModuleMaker.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\dao\impl\AuthorizeDaoImpl.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\mapper\oracle\OracleAuthorizeMapper.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\web\view\controller\AuthorizeViewController.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\config\AuthorizeLoggerRecordModule.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\config\AuthorizeStatsiticsTableName.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\service\AuthorizeService.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\mapper\AuthorizeMapper.java
+E:\ide\workspace\platform-authorizer\src\main\java\com\kanq\platform\authorize\web\view\controller\aspect\logger\AuthorizerViewControllerLogger.java

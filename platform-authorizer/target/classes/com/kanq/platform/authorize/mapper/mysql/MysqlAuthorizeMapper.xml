@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kanq.platform.authorize.mapper.mysql.MssqlAuthorizeMapper">
+	
+	<!-- 开启缓存 -->
+	<cache />
+
+	<!-- 基础的映射: Java属性和数据库的字段的映射，不包括blob,clob -->
+	<resultMap id="base_result_map" type="com.kanq.platform.authorize.model.Authorize">
+		<result property="pId" column="P_ID" jdbcType="VARCHAR" />
+		<result property="pName" column="P_NAME" jdbcType="VARCHAR" />
+		<result property="permissionType" column="PERMISSION_TYPE" jdbcType="VARCHAR" />
+		<result property="proposer" column="PROPOSER" jdbcType="VARCHAR" />
+		<result property="applicantTime" column="APPLICANT_TIME" jdbcType="TIMESTAMP" />
+		<result property="applicantCompany" column="APPLICANT_COMPANY" jdbcType="VARCHAR" />
+		<result property="projectName" column="PROJECT_NAME" jdbcType="VARCHAR" />
+		<result property="projectNo" column="PROJECT_NO" jdbcType="VARCHAR" />
+		<result property="projectDetails" column="PROJECT_DETAILS" jdbcType="VARCHAR" />
+		<result property="machineCode" column="MACHINE_CODE" jdbcType="VARCHAR" />
+		<result property="phone" column="PHONE" jdbcType="VARCHAR" />
+		<result property="eMail" column="E_MAIL" jdbcType="VARCHAR" />
+		<result property="note" column="NOTE" jdbcType="VARCHAR" />
+		<result property="proposerId" column="PROPOSER_ID" jdbcType="VARCHAR" />
+		<result property="approverId" column="APPROVER_ID" jdbcType="VARCHAR" />
+		<result property="nowDate" column="NOW_DATE" jdbcType="TIMESTAMP" />
+		<result property="startTime" column="START_TIME" jdbcType="TIMESTAMP" />
+		<result property="endTime" column="END_TIME" jdbcType="TIMESTAMP" />
+		<result property="licenseStatus" column="LICENSE_STATUS" jdbcType="VARCHAR" />
+		<result property="feedback" column="FEEDBACK" jdbcType="VARCHAR" />
+	</resultMap>
+	
+
+	<!-- 查询总和，根据Query条件进行查询 -->
+	<sql id="base_select_count">
+		count(1)
+	</sql>
+
+	<!-- 查询基本字段，不包括blob,clob -->
+	<sql id="base_select_columns">
+		P_ID as P_ID,
+		P_NAME as P_NAME,
+		PERMISSION_TYPE as PERMISSION_TYPE,
+		PROPOSER as PROPOSER,
+		APPLICANT_TIME as APPLICANT_TIME,
+		APPLICANT_COMPANY as APPLICANT_COMPANY,
+		PROJECT_NAME as PROJECT_NAME,
+		PROJECT_NO as PROJECT_NO,
+		PROJECT_DETAILS as PROJECT_DETAILS,
+		MACHINE_CODE as MACHINE_CODE,
+		PHONE as PHONE,
+		E_MAIL as E_MAIL,
+		NOTE as NOTE,
+		PROPOSER_ID as PROPOSER_ID,
+		APPROVER_ID as APPROVER_ID,
+		NOW_DATE as NOW_DATE,
+		START_TIME as START_TIME,
+		END_TIME as END_TIME,
+		LICENSE_STATUS as LICENSE_STATUS,
+		FEEDBACK as FEEDBACK
+	</sql>
+
+	
+	<!-- 不需要别名的表名 -->
+	<sql id="base_table_name">
+		KQ_AUTHORIZE
+	</sql>
+
+
+	<!-- 根据主键查询 -->
+	<sql id="base_by_primary_key_where_clause">
+		<trim suffixOverrides=",">
+		</trim>
+	</sql>
+
+	<!-- 插入时的字段：会将实体对象中所有的属性插入到数据库，不会处理插入对象中值为null的属性 -->
+	<sql id="base_insert_columns">
+		P_ID,
+		P_NAME,
+		PERMISSION_TYPE,
+		PROPOSER,
+		APPLICANT_TIME,
+		APPLICANT_COMPANY,
+		PROJECT_NAME,
+		PROJECT_NO,
+		PROJECT_DETAILS,
+		MACHINE_CODE,
+		PHONE,
+		E_MAIL,
+		NOTE,
+		PROPOSER_ID,
+		APPROVER_ID,
+		NOW_DATE,
+		START_TIME,
+		END_TIME,
+		LICENSE_STATUS,
+		FEEDBACK
+	</sql>
+	
+	<!-- 插入时的值：会将实体对象中所有的属性值插入到数据库，不会处理插入对象中值为null的属性 -->
+	<sql id="base_insert_values">
+		#{model.pId},
+		#{model.pName},
+		#{model.permissionType},
+		#{model.proposer},
+		#{model.applicantTime},
+		#{model.applicantCompany},
+		#{model.projectName},
+		#{model.projectNo},
+		#{model.projectDetails},
+		#{model.machineCode},
+		#{model.phone},
+		#{model.eMail},
+		#{model.note},
+		#{model.proposerId},
+		#{model.approverId},
+		#{model.nowDate},
+		#{model.startTime},
+		#{model.endTime},
+		#{model.licenseStatus},
+		#{model.feedback}
+	</sql>
+
+	<!-- 插入时的字段：会过滤掉属性值为null的属性，只会插入那些有值的属性 -->
+	<sql id="base_insert_selective_columns">
+		<trim suffixOverrides=",">
+			<if test="model.pId != null">
+				P_ID,
+			</if>
+			<if test="model.pName != null">
+				P_NAME,
+			</if>
+			<if test="model.permissionType != null">
+				PERMISSION_TYPE,
+			</if>
+			<if test="model.proposer != null">
+				PROPOSER,
+			</if>
+			<if test="model.applicantTime != null">
+				APPLICANT_TIME,
+			</if>
+			<if test="model.applicantCompany != null">
+				APPLICANT_COMPANY,
+			</if>
+			<if test="model.projectName != null">
+				PROJECT_NAME,
+			</if>
+			<if test="model.projectNo != null">
+				PROJECT_NO,
+			</if>
+			<if test="model.projectDetails != null">
+				PROJECT_DETAILS,
+			</if>
+			<if test="model.machineCode != null">
+				MACHINE_CODE,
+			</if>
+			<if test="model.phone != null">
+				PHONE,
+			</if>
+			<if test="model.eMail != null">
+				E_MAIL,
+			</if>
+			<if test="model.note != null">
+				NOTE,
+			</if>
+			<if test="model.proposerId != null">
+				PROPOSER_ID,
+			</if>
+			<if test="model.approverId != null">
+				APPROVER_ID,
+			</if>
+			<if test="model.nowDate != null">
+				NOW_DATE,
+			</if>
+			<if test="model.startTime != null">
+				START_TIME,
+			</if>
+			<if test="model.endTime != null">
+				END_TIME,
+			</if>
+			<if test="model.licenseStatus != null">
+				LICENSE_STATUS,
+			</if>
+			<if test="model.feedback != null">
+				FEEDBACK,
+			</if>
+		</trim>
+
+	</sql>
+	
+	<!-- 插入时的字段：会过滤掉属性值为null的属性，只会插入那些有值的属性 -->
+	<sql id="base_insert_selective_values">
+		<trim suffixOverrides=",">
+			<if test="model.pId != null">
+				#{model.pId},
+			</if>
+			<if test="model.pName != null">
+				#{model.pName},
+			</if>
+			<if test="model.permissionType != null">
+				#{model.permissionType},
+			</if>
+			<if test="model.proposer != null">
+				#{model.proposer},
+			</if>
+			<if test="model.applicantTime != null">
+				#{model.applicantTime},
+			</if>
+			<if test="model.applicantCompany != null">
+				#{model.applicantCompany},
+			</if>
+			<if test="model.projectName != null">
+				#{model.projectName},
+			</if>
+			<if test="model.projectNo != null">
+				#{model.projectNo},
+			</if>
+			<if test="model.projectDetails != null">
+				#{model.projectDetails},
+			</if>
+			<if test="model.machineCode != null">
+				#{model.machineCode},
+			</if>
+			<if test="model.phone != null">
+				#{model.phone},
+			</if>
+			<if test="model.eMail != null">
+				#{model.eMail},
+			</if>
+			<if test="model.note != null">
+				#{model.note},
+			</if>
+			<if test="model.proposerId != null">
+				#{model.proposerId},
+			</if>
+			<if test="model.approverId != null">
+				#{model.approverId},
+			</if>
+			<if test="model.nowDate != null">
+				#{model.nowDate},
+			</if>
+			<if test="model.startTime != null">
+				#{model.startTime},
+			</if>
+			<if test="model.endTime != null">
+				#{model.endTime},
+			</if>
+			<if test="model.licenseStatus != null">
+				#{model.licenseStatus},
+			</if>
+			<if test="model.feedback != null">
+				#{model.feedback},
+			</if>
+		</trim>
+
+	</sql>
+
+	<!-- 更新：会更新掉所对应实体对象的所有的字段中的值， 如果只想更新非空的属性，请使用selective结尾的方法 -->
+	<sql id="base_update_values">
+		<trim suffixOverrides=",">
+			P_ID = #{model.pId},
+			P_NAME = #{model.pName},
+			PERMISSION_TYPE = #{model.permissionType},
+			PROPOSER = #{model.proposer},
+			APPLICANT_TIME = #{model.applicantTime},
+			APPLICANT_COMPANY = #{model.applicantCompany},
+			PROJECT_NAME = #{model.projectName},
+			PROJECT_NO = #{model.projectNo},
+			PROJECT_DETAILS = #{model.projectDetails},
+			MACHINE_CODE = #{model.machineCode},
+			PHONE = #{model.phone},
+			E_MAIL = #{model.eMail},
+			NOTE = #{model.note},
+			PROPOSER_ID = #{model.proposerId},
+			APPROVER_ID = #{model.approverId},
+			NOW_DATE = #{model.nowDate},
+			START_TIME = #{model.startTime},
+			END_TIME = #{model.endTime},
+			LICENSE_STATUS = #{model.licenseStatus},
+			FEEDBACK = #{model.feedback},
+		</trim>
+	</sql>
+
+	<!-- 更新：只更新那些不为null的属性 -->
+	<sql id="base_update_selective_values">
+		<trim suffixOverrides=",">
+			<if test="model.pId != null">
+				P_ID = #{model.pId},
+			</if>
+			<if test="model.pName != null">
+				P_NAME = #{model.pName},
+			</if>
+			<if test="model.permissionType != null">
+				PERMISSION_TYPE = #{model.permissionType},
+			</if>
+			<if test="model.proposer != null">
+				PROPOSER = #{model.proposer},
+			</if>
+			<if test="model.applicantTime != null">
+				APPLICANT_TIME = #{model.applicantTime},
+			</if>
+			<if test="model.applicantCompany != null">
+				APPLICANT_COMPANY = #{model.applicantCompany},
+			</if>
+			<if test="model.projectName != null">
+				PROJECT_NAME = #{model.projectName},
+			</if>
+			<if test="model.projectNo != null">
+				PROJECT_NO = #{model.projectNo},
+			</if>
+			<if test="model.projectDetails != null">
+				PROJECT_DETAILS = #{model.projectDetails},
+			</if>
+			<if test="model.machineCode != null">
+				MACHINE_CODE = #{model.machineCode},
+			</if>
+			<if test="model.phone != null">
+				PHONE = #{model.phone},
+			</if>
+			<if test="model.eMail != null">
+				E_MAIL = #{model.eMail},
+			</if>
+			<if test="model.note != null">
+				NOTE = #{model.note},
+			</if>
+			<if test="model.proposerId != null">
+				PROPOSER_ID = #{model.proposerId},
+			</if>
+			<if test="model.approverId != null">
+				APPROVER_ID = #{model.approverId},
+			</if>
+			<if test="model.nowDate != null">
+				NOW_DATE = #{model.nowDate},
+			</if>
+			<if test="model.startTime != null">
+				START_TIME = #{model.startTime},
+			</if>
+			<if test="model.endTime != null">
+				END_TIME = #{model.endTime},
+			</if>
+			<if test="model.licenseStatus != null">
+				LICENSE_STATUS = #{model.licenseStatus},
+			</if>
+			<if test="model.feedback != null">
+				FEEDBACK = #{model.feedback},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 根据query条进行查询 -->
+	<sql id="base_by_query_where_clause">
+		<bind name="oredCriteria" value="query.oredCriteria" />
+		<foreach collection="oredCriteria" item="criteria" separator="or">
+			<if test="criteria.valid">
+				<trim prefix="(" suffix=")" prefixOverrides="and|or">
+					<foreach collection="criteria.criteria" item="criterion">
+						<choose>
+							<when test="criterion.noValue">
+								${criterion.condition}
+							</when>
+							<when test="criterion.singleValue">
+								${criterion.condition} #{criterion.value}
+							</when>
+							<when test="criterion.betweenValue">
+								${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+							</when>
+							<when test="criterion.listValue">
+								${criterion.condition}
+								<foreach collection="criterion.value" item="listItem" open="(" close=")" separator=",">
+									#{listItem}
+								</foreach>
+							</when>
+						</choose>
+					</foreach>
+				</trim>
+			</if>
+		</foreach>
+	</sql>
+	
+	<!-- 排序 -->
+	<sql id="base_by_order_by_clause">
+		<bind name="orderByClause" value="query.orderByClause" />
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</sql>
+
+	<!-- 根据query中的criteria进行查询 -->
+	<sql id="base_by_criteria_where_clause">
+		<if test="criteria.valid">
+			<trim prefix="(" suffix=")" prefixOverrides="and|or">
+				<foreach collection="criteria.criteria" item="criterion">
+					<choose>
+						<when test="criterion.noValue">
+							${criterion.condition}
+						</when>
+						<when test="criterion.singleValue">
+							${criterion.condition} #{criterion.value}
+						</when>
+						<when test="criterion.betweenValue">
+							${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+						</when>
+						<when test="criterion.listValue">
+							${criterion.condition}
+							<foreach collection="criterion.value" item="listItem" open="(" close=")" separator=",">
+								#{listItem}
+							</foreach>
+						</when>
+					</choose>
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+
+
+	<!-- insert，会将所有的值插入到数据库。并没有处理为null的属性 -->
+	<insert id="insert">
+		insert into
+		<include refid="base_table_name" />
+		(
+		<include refid="base_insert_columns" />
+		)
+		values
+		(
+		<include refid="base_insert_values" />
+		)
+	</insert>
+
+	<!-- insertSelective，只会将那些不为null的属性进行插入，对为null的属性不会插入到数据库中 -->
+	<insert id="insertSelective">
+		insert into
+		<include refid="base_table_name" />
+		(
+		<include refid="base_insert_selective_columns" />
+		)
+		values
+		(
+		<include refid="base_insert_selective_values" />
+		)
+	</insert>
+	
+	<!-- insertList，批量插入，可能有些数据库不支持。会将所有的值插入到数据库。并没有处理为null的属性 -->
+	<insert id="insertList">
+		insert into
+		<include refid="base_table_name" />
+		(
+		<include refid="base_insert_columns" />
+		)
+		values
+		<foreach collection="modelList" item="model" separator=",">
+		(
+		<include refid="base_insert_values" />
+		)
+		</foreach>
+	</insert>
+
+	<!-- insertListSelective，批量插入，只会将那些不为null的属性进行插入，对为null的属性不会插入到数据库中 -->
+	<insert id="insertListSelective">
+		insert into
+		<include refid="base_table_name" />
+		(
+		<include refid="base_insert_columns" />
+		)
+		values
+		<foreach collection="modelList" item="model" separator=",">
+		(
+		<include refid="base_insert_values" />
+		)
+		</foreach>
+	</insert>
+
+	<!-- selectByPrimaryKey，根据主键查询 -->
+	<select id="selectByPrimaryKey" resultMap="base_result_map">
+		SELECT
+		<include refid="base_select_columns" />
+		FROM
+		<include refid="base_table_name" />
+		<where>
+			<include refid="base_by_primary_key_where_clause" />
+			= #{key}
+		</where>
+	</select>
+
+	<!-- selectByPrimaryKeys，根据多个主键查询，主键封装在集合中 -->
+	<select id="selectByPrimaryKeys" resultMap="base_result_map">
+		SELECT
+		<include refid="base_select_columns" />
+		FROM
+		<include refid="base_table_name" />
+		<where>
+			<include refid="base_by_primary_key_where_clause" />
+			IN
+			<foreach collection="keys" open="(" close=")" item="key" separator=",">
+				#{key}
+			</foreach>
+		</where>
+	</select>
+
+	<!-- selectOneByCriteria，根据Criteria查询，对于只返回一条查询记录，可以使用此方法 -->
+	<!-- 如果查询出来为多条记录，将会抛出异常                                         -->
+	<select id="selectOneByCriteria" resultMap="base_result_map">
+		SELECT
+		<include refid="base_select_columns" />
+		FROM
+		<include refid="base_table_name" />
+		<where>
+			<include refid="base_by_criteria_where_clause" />
+		</where>
+	</select>
+	
+	<!-- selectListByCriteria，据Criteria查询，返回多条查询记录 -->
+	<select id="selectListByCriteria" resultMap="base_result_map">
+		SELECT
+		<include refid="base_select_columns" />
+		FROM
+		<include refid="base_table_name" />
+		<where>
+			<include refid="base_by_criteria_where_clause" />
+		</where>
+	</select>
+
+	<!-- selectListByQuery，根据Query条件查询，返回多条查询记录 -->
+	<select id="selectListByQuery" resultMap="base_result_map">
+		SELECT
+		<include refid="base_select_columns" />
+		FROM
+		<include refid="base_table_name" />
+		<where>
+			<include refid="base_by_query_where_clause" />
+		</where>
+		<include refid="base_by_order_by_clause" />
+	</select>
+	
+	<!-- selectCountByQuery，根据Query条件查询数量 -->
+	<select id="selectCountByQuery" resultType="long">
+		SELECT
+		<include refid="base_select_count" />
+		FROM
+		<include refid="base_table_name" />
+		<where>
+			<include refid="base_by_query_where_clause" />
+		</where>
+	</select>
+	
+	
+	<!-- updateByPrimaryKey，会更新掉所对应实体对象的所有的字段中的值， 如果只想更新非空的属性，请使用selective结尾的方法 -->
+	<update id="updateByPrimaryKey">
+		update
+		<include refid="base_table_name" />
+		<set>
+			<include refid="base_update_values" />
+		</set>
+		<where>
+			<include refid="base_by_primary_key_where_clause" />
+			= #{key}
+		</where>
+	</update>
+
+	<!-- updateByPrimaryKeySelective，只更新那些不为null的属性 -->
+	<update id="updateByPrimaryKeySelective">
+		update
+		<include refid="base_table_name" />
+		<set>
+			<include refid="base_update_selective_values" />
+		</set>
+		<where>
+			<include refid="base_by_primary_key_where_clause" />
+			= #{key}
+		</where>
+	</update>
+
+	<!-- updateByCriteria，根据Criteria进行更新，会将实体对象中所有的属性都会更新掉，不会处理属性值为null的字段 -->
+	<update id="updateByCriteria">
+		update
+		<include refid="base_table_name" />
+		<set>
+			<include refid="base_update_values" />
+		</set>
+		<where>
+			<include refid="base_by_criteria_where_clause" />
+		</where>
+	</update>
+
+	<!-- updateByCriteriaSelective，根据Criteria条件进行更新，只会更新那些不为null的属性 -->
+	<update id="updateByCriteriaSelective">
+		update
+		<include refid="base_table_name" />
+		<set>
+			<include refid="base_update_selective_values" />
+		</set>
+		<where>
+			<include refid="base_by_criteria_where_clause" />
+		</where>
+	</update>
+
+	<!-- updateByQuery，根据Query进行更新，会将实体对象中所有的属性都会更新掉，不会处理属性值为null的字段 -->
+	<update id="updateByQuery">
+		update
+		<include refid="base_table_name" />
+		<set>
+			<include refid="base_update_values" />
+		</set>
+		<where>
+			<include refid="base_by_query_where_clause" />
+		</where>
+	</update>
+
+	<!-- updateByQuerySelective，根据Query条件进行更新，只会更新那些不为null的属性 -->
+	<update id="updateByQuerySelective">
+		update
+		<include refid="base_table_name" />
+		<set>
+			<include refid="base_update_selective_values" />
+		</set>
+		<where>
+			<include refid="base_by_query_where_clause" />
+		</where>
+	</update>
+
+	<!-- deleteByPrimaryKey，根据主键进行删除 -->
+	<delete id="deleteByPrimaryKey">
+		delete from
+		<include refid="base_table_name" />
+		<where>
+			<include refid="base_by_primary_key_where_clause" />
+			= #{key}
+		</where>
+	</delete>
+
+	<!-- deleteByPrimaryKeys，根据主键集合进行删除 -->
+	<delete id="deleteByPrimaryKeys">
+		delete from
+		<include refid="base_table_name" />
+		<where>
+			<include refid="base_by_primary_key_where_clause" />
+			IN
+			<foreach collection="keys" open="(" close=")" item="key" separator=",">
+				#{key}
+			</foreach>
+		</where>
+	</delete>
+	
+	<!-- deleteByCriteria，根据Criteria删除 -->
+	<delete id="deleteByCriteria">
+		delete from
+		<include refid="base_table_name" />
+		<where>
+			<include refid="base_by_criteria_where_clause" />
+		</where>
+	</delete>
+
+	<!-- deleteByQuery，根据Query删除 -->
+	<delete id="deleteByQuery">
+		delete from
+		<include refid="base_table_name" />
+		<where>
+			<include refid="base_by_query_where_clause" />
+		</where>
+	</delete>
+
+</mapper>

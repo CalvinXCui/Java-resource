@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.kanq.platform.basis</groupId>
+		<artifactId>platform-starter-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>com.kanq.platform.authorize</groupId>
+	<artifactId>platform-authorizer</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.kanq.platform.basis</groupId>
+			<artifactId>platform-basis-common</artifactId>
+		</dependency>
+		<!-- basis -->
+		<dependency>
+			<groupId>com.kanq.platform.basis</groupId>
+			<artifactId>platform-basis</artifactId>
+		</dependency>
+		
+		<!-- 统计监管:sps -->
+		<dependency>
+			<groupId>com.kanq.platform.immovable-property</groupId>
+			<artifactId>platform-supervision-statistics</artifactId>
+		</dependency>
+		
+	<!-- 注入logger模块 -->
+	<dependency>
+			<groupId>com.kanq.platform.basis</groupId>
+			<artifactId>platform-basis-logger</artifactId>
+		</dependency>
+	</dependencies>
+</project>
