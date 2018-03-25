@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	<description>
+		This is the main Spring configuration file with some of the main "core" classes defined. You shouldn't really
+		modify this unless you know what you're doing!
+	</description>
+
+	<!-- | The base-package indicates where components stored. Spring will scan this | folder and find out the annotated beans and register it in Spring container. -->
+	<context:component-scan base-package="org.jasig.cas" />
+	<context:component-scan base-package="com.kanq.platform.basis.cas" />
+	<context:annotation-config />
+
+	<!-- Including this aspectj-autoproxy element will cause spring to automatically create proxies around any beans defined in this file that match the pointcuts of any aspects defined in this file. -->
+	<aop:aspectj-autoproxy />
+
+	<!-- ADVISORS -->
+	<bean id="advisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+
+	<!-- CAS Application Context Configuration -->
+	<util:list id="serviceFactoryList" value-type="org.jasig.cas.authentication.principal.ServiceFactory">
+		<ref bean="webApplicationServiceFactory" />
+	</util:list>
+
+	<util:list id="argumentExtractors">
+		<ref bean="defaultArgumentExtractor" />
+	</util:list>
+
+	<util:map id="uniqueIdGeneratorsMap">
+		<entry key="org.jasig.cas.authentication.principal.SimpleWebApplicationServiceImpl" value-ref="serviceTicketUniqueIdGenerator" />
+	</util:map>
+
+	<bean id="passThroughController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController" />
+
+	<bean id="handlerMappingC" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" p:order="1000" p:alwaysUseFullPath="true">
+		<property name="mappings">
+			<util:properties>
+				<prop key="/authorizationFailure.html">passThroughController</prop>
+			</util:properties>
+		</property>
+		<!-- uncomment this to enable sending PageRequest events. <property name="interceptors"> <list> <ref bean="pageRequestHandlerInterceptorAdapter" /> </list> </property> -->
+	</bean>
+
+	<!-- The Quartz scheduler used by any scheduled tasks -->
+	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" p:waitForJobsToCompleteOnShutdown="${scheduler.shutdown.wait:true}">
+		<property name="jobFactory">
+			<bean class="org.jasig.cas.util.CasSpringBeanJobFactory" />
+		</property>
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.scheduler.interruptJobsOnShutdown">${scheduler.shutdown.interruptJobs:true}</prop>
+				<prop key="org.quartz.scheduler.interruptJobsOnShutdownWithWait">
+					${scheduler.shutdown.interruptJobs:true}
+				</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" p:dataSource-ref="dataSource" />
+	<alias name="dataSource" alias="authenticationDataSource"/>
+	<alias name="dataSource" alias="queryEncodeDatabaseDataSource"/>
+
+<!-- 数据库连接池。使用apache.dbcp -->
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+			<property name="driverClassName" value="${cas.jdbc.driver}" />
+			<property name="url" value="${cas.jdbc.url}" />
+			<property name="username" value="${cas.jdbc.username}" />
+			<property name="password" value="${cas.jdbc.password}" />
+			<!-- 初始化连接大小 -->
+			<property name="initialSize" value="${cas.jdbc.initialSize}" />
+			<!-- 连接池最大数量 -->
+			<property name="maxActive" value="${cas.jdbc.maxActive}" />
+			<!-- 连接池最大空闲 -->
+			<property name="maxIdle" value="${cas.jdbc.maxIdle}" />
+			<!-- 连接池最小空闲 -->
+			<!-- <property name="minIdle" value="${jdbc.minIdle}" /> -->
+			<!-- 获取连接最大等待时间 -->
+			<property name="maxWait" value="${cas.jdbc.maxWait}" />
+		</bean>
+
+</beans>

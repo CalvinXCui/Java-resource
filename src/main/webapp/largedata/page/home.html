@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta HTTP-EQUIV="Page-Enter" CONTENT="revealtrans(duration=6.0, transition=23)">
+        <meta HTTP-EQUIV="Page-Exit" CONTENT="revealtrans(duration=6.0, transition=23)">
+		<meta charset="UTF-8">
+		<title>home</title>
+		<script type="text/javascript" src="../js/jquery.min.js" ></script>
+		<script type="text/javascript" src="../js/jquery.easyui.min.js" ></script>
+		<script type="text/javascript" src="../js/echarts.min.js"></script>
+
+        <script src="../js/Cesium/Cesium.js"></script>
+        <link href="../js/Cesium/Widgets/widgets.css" rel="stylesheet" />
+
+    </head>
+	<body>
+		<div class="easyui-panel" style="position:relative;overflow:hidden;width:100%;height: 100%;">
+				<div id="dd" class="easyui-draggable easyui-resizable box_resize box_resize1" data-options="handle:'#mytitle',onDrag:onDrag">
+                    <div id="mytitle" class="box_title">登记类型统计</div>
+                    <div class="blue_triangle"></div>
+                    <div id="main1" class="box_content"></div>
+			</div>
+			<div id="dd" class="easyui-draggable easyui-resizable box_resize box_resize2" data-options="handle:'#mytitle',onDrag:onDrag">
+				<div id="mytitle" class="box_title">发证量统计</div>
+				<div class="blue_triangle"></div>
+				<div id="main2" class="box_content"></div>
+			</div>
+            <div id="dd" class="easyui-draggable easyui-resizable box_resize box_resize3" data-options="handle:'#mytitle',onDrag:onDrag">
+                <div id="mytitle" class="box_title">接入量统计</div>
+                <div class="blue_triangle"></div>
+                <div id="main3" class="box_content"></div>
+            </div>
+            <div id="dd" class="easyui-draggable easyui-resizable box_resize box_resize4" data-options="handle:'#mytitle',onDrag:onDrag">
+                <div id="mytitle" class="box_title">不动产类型统计</div>
+                <div class="blue_triangle"></div>
+                <div id="main4" class="box_content"></div>
+            </div>
+            <div id="dd" class="easyui-draggable easyui-resizable box_resize box_resize5" data-options="handle:'#mytitle',onDrag:onDrag">
+                <div id="mytitle" class="box_title">接入成功率</div>
+                <div class="blue_triangle"></div>
+                <div id="main5" class="box_content"></div>
+            </div>
+            <div id="dd" class="easyui-draggable easyui-resizable box_resize box_resize_map" data-options="handle:'#mytitle',onDrag:onDrag">
+                <div id="cesiumContainer" align="center" style=""></div>
+            </div>
+        </div>>
+		<script>
+
+            //初始化地图
+            var viewer = new Cesium.Viewer(
+                "cesiumContainer",
+                {
+                    animation : false, //是否显示动画控件
+                    baseLayerPicker : false, //是否显示图层选择控件
+                    geocoder : true, //是否显示地名查找控件
+                    timeline : false, //是否显示时间线控件
+                    sceneModePicker : true, //是否显示投影方式控件
+                    navigationHelpButton : false, //是否显示帮助信息控件
+                    infoBox : true, //是否显示点击要素之后显示的信息
+                    imageryProvider : new Cesium.WebMapTileServiceImageryProvider(
+                        {
+                            url : "http://t0.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles",
+                            layer : "tdtBasicLayer",
+                            style : "default",
+                            format : "image/jpeg",
+                            tileMatrixSetID : "GoogleMapsCompatible",
+                            show : false
+                        })
+                });
+
+
+            var jing  = 117.3;
+            var wei = 32;
+            var cameraHeight = 2000000;
+            var shengCode = "34";
+
+            /*
+             //山东
+             var jing  = 118;
+             var wei = 36;
+             var cameraHeight = 2000000;
+             var shengCode = "37"; */
+
+            //设置镜头位置与方向  (117, 31, 2000000)
+            viewer.camera.flyTo({
+                destination : Cesium.Cartesian3.fromDegrees(jing, wei, cameraHeight),
+                duration : 3, //持续时间
+                complete : function()//飞行完毕后执行的动作
+                {
+                    //window.open("https://www.baidu.com");
+                    /* var qiu = document.getElementById("qiu");
+                     qiu.style.display="block";
+                     var cesiumContainer = document.getElementById("cesiumContainer");
+                     cesiumContainer.style.display="none"; */
+                }
+            });
+
+            //加载全国 json 坐标
+            Cesium.loadJson('mapdata/china.json').then(function(jsonData) {
+                var features = jsonData.features;
+                var data = [];
+                var shengName = "";
+                for (var i = 0; i < features.length; i++) {
+                    if(features[i].properties.id == shengCode){
+                        data = features[i].geometry.coordinates[0];
+                        shengName = features[i].properties.name;
+                    }
+                }
+                //var data = jsonData.features[0].geometry.coordinates[0];
+                data = "[" + data.toString() + "]";
+                data = JSON.parse(data);
+                //console.log(data);
+                //高亮显示一片区域
+                var anhui = viewer.entities.add({ //添加一个实体，仅需要传递一个简单JSON对象，返回值是一个Entity对象
+                    name : '安徽省',
+                    polygon : {
+                        hierarchy : Cesium.Cartesian3.fromDegreesArray(data),
+                        material : Cesium.Color.YELLOW.withAlpha(0.5), //材质
+                        outline : false, //是否显示轮廓
+                        outlineColor : Cesium.Color.RED
+                        //BLACK//轮廓的颜色
+                    }
+                });
+                viewer.zoomTo(anhui);//缩放、平移视图使实体可见  */
+
+                //设置镜头位置名称
+                var anhuiName = viewer.entities.add({
+                    position : Cesium.Cartesian3.fromDegrees(jing, wei),
+                    label : {
+                        text : shengName
+                    }
+                });
+                viewer.zoomTo(anhuiName);
+            }).otherwise(function(error) {
+                console.log(error);
+            });
+            //地图end
+
+			function onDrag(e){
+				var d = e.data;
+				if (d.left < 0){d.left = 0}
+				if (d.top < 0){d.top = 0}
+				if (d.left + $(d.target).outerWidth() > $(d.parent).width()){
+					d.left = $(d.parent).width() - $(d.target).outerWidth();
+				}
+				if (d.top + $(d.target).outerHeight() > $(d.parent).height()){
+					d.top = $(d.parent).height() - $(d.target).outerHeight();
+				}
+			}
+            $(function(argument) {
+                var obj = {
+                    //disabled:true,//不能拖动了；
+                    handles: 'all', //能够拖动的方向；n-上北，all-全部
+//                    minHeight: 200,
+//                    minWidth: 200,
+//                    maxHeight: 400,
+//                    maxWidth: 400,
+                     //拖动的边的宽度
+//                    edge: 10,
+                    onStartResize: function(e) { //mousedown
+                    console.log('onStartResize');
+                    console.log(e);
+                },
+                onResize: function(e) { //mousemove
+                    // console.log(‘onResize‘);
+                    // console.log(e);
+                    console.log($(this).resizable('options')); //获得options对象；
+                },
+                onStopResize: function(e) { //mouseup
+                    console.log('onStopResize');
+                    console.log(e);
+                    //echarts1
+                    var myChart1 = echarts.init(document.getElementById('main1'));
+                    // 指定图表的配置项和数据
+                    var option1 = {
+                        title : {
+                            text: '',
+                            subtext: '',
+                            x:'center'
+                        },
+                        tooltip : {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        },
+                        legend: {
+                            left:'3%',
+                            bottom:'10%',
+                            data:['rose1','rose2','rose3','rose4','rose5','rose6','rose7','rose8']
+                        },
+                        toolbox: {
+                            show : true,
+                            feature : {
+                                mark : {show: true},
+                                dataView : {show: true, readOnly: false},
+                                magicType : {
+                                    show: true,
+                                    type: ['pie', 'funnel']
+                                },
+                                restore : {show: true},
+                                saveAsImage : {show: true}
+                            }
+                        },
+                        calculable : true,
+                        series : [
+                            {
+                                name:'面积模式',
+                                type:'pie',
+                                radius : [30, 110],
+                                center : ['50%', '40%'],
+                                roseType : 'area',
+                                data:[
+                                    {value:10, name:'rose1'},
+                                    {value:5, name:'rose2'},
+                                    {value:15, name:'rose3'},
+                                    {value:25, name:'rose4'},
+                                    {value:20, name:'rose5'},
+                                    {value:35, name:'rose6'},
+                                    {value:30, name:'rose7'},
+                                    {value:40, name:'rose8'}
+                                ]
+                            }
+                        ]
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart1.setOption(option1);
+                }
+            };
+                $('.box_resize').resizable(obj);
+            });
+
+                $('.box_resize').draggable();
+			
+			//echarts1
+            var myChart1 = echarts.init(document.getElementById('main1'));
+            // 指定图表的配置项和数据
+            var option1 = {
+                title : {
+                    text: '',
+                    subtext: '',
+                    x:'center'
+                },
+                tooltip : {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    left:'3%',
+                    bottom:'10%',
+                    data:['rose1','rose2','rose3','rose4','rose5','rose6','rose7','rose8']
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        magicType : {
+                            show: true,
+                            type: ['pie', 'funnel']
+                        },
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                calculable : true,
+                series : [
+                    {
+                        name:'面积模式',
+                        type:'pie',
+                        radius : [30, 110],
+                        center : ['50%', '40%'],
+                        roseType : 'area',
+                        data:[
+                            {value:10, name:'rose1'},
+                            {value:5, name:'rose2'},
+                            {value:15, name:'rose3'},
+                            {value:25, name:'rose4'},
+                            {value:20, name:'rose5'},
+                            {value:35, name:'rose6'},
+                            {value:30, name:'rose7'},
+                            {value:40, name:'rose8'}
+                        ]
+                    }
+                ]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart1.setOption(option1);
+//            window.addEventListener("resize", function () {
+//                myChart1.resize();
+//            });
+
+            //echarts2
+            var myChart2 = echarts.init(document.getElementById('main2'));
+            // 指定图表的配置项和数据
+            var option2 = {
+                title: {
+                    text: ''
+                },
+                tooltip: {},
+                legend: {
+                    data:['销量']
+                },
+                xAxis: {
+                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart2.setOption(option2);
+
+            //echarts3
+            var myChart3 = echarts.init(document.getElementById('main3'));
+            // 指定图表的配置项和数据
+
+            function randomData() {
+                now = new Date(+now + oneDay);
+                value = value + Math.random() * 21 - 10;
+                return {
+                    name: now.toString(),
+                    value: [
+                        [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+                        Math.round(value)
+                    ]
+                }
+            }
+
+            var data = [];
+            var now = +new Date(1997, 9, 3);
+            var oneDay = 24 * 3600 * 1000;
+            var value = Math.random() * 1000;
+            for (var i = 0; i < 1000; i++) {
+                data.push(randomData());
+            }
+
+            option3 = {
+                title: {
+                    text: ''
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function (params) {
+                        params = params[0];
+                        var date = new Date(params.name);
+                        return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+                    },
+                    axisPointer: {
+                        animation: false
+                    }
+                },
+                xAxis: {
+                    type: 'time',
+                    splitLine: {
+                        show: false
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    boundaryGap: [0, '100%'],
+                    splitLine: {
+                        show: false
+                    }
+                },
+                series: [{
+                    name: '模拟数据',
+                    type: 'line',
+                    showSymbol: false,
+                    hoverAnimation: false,
+                    data: data
+                }]
+            };
+
+            setInterval(function () {
+
+                for (var i = 0; i < 5; i++) {
+                    data.shift();
+                    data.push(randomData());
+                }
+
+                myChart3.setOption({
+                    series: [{
+                        data: data
+                    }]
+                });
+            }, 1000);
+            // 使用刚指定的配置项和数据显示图表。
+            myChart3.setOption(option3);
+
+            //echarts4
+            var myChart4 = echarts.init(document.getElementById('main4'));
+            // 指定图表的配置项和数据
+            option4 = {
+                tooltip : {
+                    formatter: "{a} <br/>{c} {b}"
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : {show: true},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                series : [
+                    {
+                        name:'速度',
+                        type:'gauge',
+                        min:0,
+                        max:220,
+                        splitNumber:11,
+                        radius: '80%',
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: [[0.09, 'lime'],[0.82, '#1e90ff'],[1, '#ff4500']],
+                                width: 2,
+                                shadowColor : '#fff', //默认透明
+                                shadowBlur: 10
+                            }
+                        },
+                        axisLabel: {            // 坐标轴小标记
+                            textStyle: {       // 属性lineStyle控制线条样式
+                                fontWeight: 'normal',
+                                color: '#fff',
+                                shadowColor : '#fff', //默认透明
+                                shadowBlur: 10
+                            }
+                        },
+                        axisTick: {            // 坐标轴小标记
+                            length :5,        // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: 'auto',
+                                shadowColor : '#fff', //默认透明
+                                shadowBlur: 10
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                            length :8,         // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                width:3,
+                                color: '#fff',
+                                shadowColor : '#fff', //默认透明
+                                shadowBlur: 10
+                            }
+                        },
+                        pointer: {           // 分隔线
+                            shadowColor : '#fff', //默认透明
+                            shadowBlur: 1,
+                            width: 3,
+                            length: '80%',
+                        },
+                        title : {
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                fontWeight: 'normal',
+                                fontSize: 12,
+                                color: '#fff',
+                                shadowColor : '#fff', //默认透明
+                                shadowBlur: 10
+                            }
+                        },
+                        detail : {
+                            shadowBlur: 5,
+                            offsetCenter: ['5%', '40%'],       // x, y，单位px
+                            textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                                fontWeight: 'normal',
+                                fontSize:12,
+                                color: '#fff'
+                            }
+                        },
+                        data:[{value: 40, name: 'km/h'}]
+                    },
+                ]
+            };
+
+            setInterval(function () {
+                option4.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
+                myChart4.setOption(option4, true);
+            },2000);
+
+            //echarts5
+            var myChart5 = echarts.init(document.getElementById('main5'));
+            // 指定图表的配置项和数据
+            var option5 = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b}: {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    x: 'left',
+                    data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+                },
+                series: [
+                    {
+                        name:'访问来源',
+                        type:'pie',
+                        radius: ['50%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '24',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data:[
+                            {value:335, name:'直接访问'},
+                            {value:310, name:'邮件营销'},
+                            {value:234, name:'联盟广告'},
+                            {value:135, name:'视频广告'},
+                            {value:1548, name:'搜索引擎'}
+                        ]
+                    }
+                ]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart5.setOption(option5);
+
+            //echarts_map
+            var myChart_map = echarts.init(document.getElementById('main_map'));
+            // 指定图表的配置项和数据
+            var option_map = {
+                title: {
+                    text: 'ECharts 入门示例'
+                },
+                tooltip: {},
+                legend: {
+                    data:['销量']
+                },
+                xAxis: {
+                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }]
+            };
+            // 使用刚指定的配置项和数据显示图表。
+            myChart_map.setOption(option_map);
+
+		</script>
+	</body>
+</html>

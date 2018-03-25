@@ -1,0 +1,181 @@
+body {
+	font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background-color: #647BA5;
+	font-size: 13px;
+	color: #676a6c;
+	overflow-x: hidden;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+.gray-bg,
+.bg-muted {
+	background:url(../img/login/login.png) no-repeat; 
+	background-size:100% 100%;
+	background-position: center;
+}
+
+.loginscreen.middle-box {
+	width: 800px;
+}
+
+.middle-box {
+	z-index: 100;
+	margin: 0 auto;
+	padding-top: 150px;
+}
+.logo-name {
+    color: #FAFAFA;
+    font-size: 34px;
+    letter-spacing: 10px; 
+    font-weight: 500;
+    margin-bottom: 40px;
+    
+}
+
+.login-form{
+	width: 400px;
+	margin: 0px auto;
+}
+.login-form .form-group{
+	position: relative;
+}
+.login-form .form-group span{
+	position: absolute;
+    left: 0px;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    font-size: 20px;
+    margin: 10px;
+    padding: 5px;
+    border-right: 2px solid #d8d8d8;
+    padding-right: 20px;
+}
+.login-form .form-group input{
+	text-indent: 30px;
+	height: 47px;
+	font-size: 20px;
+	line-height: 50px;
+}
+.form-rember{
+	display: inline-block;
+	width: 100%;
+}
+.form-group button.loginBtn,
+.form-group button.registerBtn{
+	width: 100%;
+}
+.form-group button.registerBtn{
+	background: none;
+    border:none;
+    color: #ffffff;
+}
+.form-group button.registerBtn:hover {
+    color: #8d8d8d;
+    background-color: #fafafa;
+    border-color: #d8d8d8;
+}
+.form-rember a{
+	color:#FAFAFA;
+}
+
+/*login换肤*/
+
+#skin-cloth {
+	background: url(../img/bodybac/cloth.png);
+}
+
+#skin-tectile {
+	background: url(../img/bodybac/tectile.png);
+}
+
+@media (min-width: 1024px) {
+	/* --------------------------------------------------------
+        Template Blur Skins for Desktop
+    -----------------------------------------------------------*/
+	[id^="skin-blur-"] {
+		background-size: 100% 100%;
+		background-attachment: fixed;
+	}
+	#skin-blur-timg {
+		background-image: url(../img/bac/timg.jpg);
+	}
+	#skin-blur-violate {
+		background-image: url(../img/bodybac/violate.jpg);
+	}
+	#skin-blur-city {
+		background-image: url(../img/bodybac/city.jpg);
+	}
+	#skin-blur-sunny {
+		background-image: url(../img/bodybac/sunny.jpg);
+	}
+	#skin-blur-sunset {
+		background-image: url(../img/bodybac/sunset.jpg);
+	}
+	#skin-blur-yellow {
+		background-image: url(../img/bodybac/yellow.jpg);
+	}
+	/*冷色配色方案*/
+	#skin-blur-bg {
+		background-image: url(../img/bac/bg.jpg);
+	}
+	#skin-blur-lights {
+		background-image: url(../img/bodybac/lights.jpg);
+	}
+	#skin-blur-greenish {
+		background-image: url(../img/bodybac/greenish.jpg);
+	}
+	#skin-blur-night {
+		background-image: url(../img/bodybac/night.jpg);
+	}
+	#skin-blur-blue {
+		background-image: url(../img/bodybac/blue.jpg);
+	}
+	#skin-blur-chrome {
+		background-image: url(../img/bodybac/chrome.jpg);
+	}
+	#skin-blur-ocean {
+		background-image: url(../img/bodybac/ocean.jpg);
+	}
+	#skin-blur-kiwi {
+		background-image: url(../img/bodybac/kiwi.jpg);
+	}
+	/* Sidebar */
+	.side-menu > li > a:hover,
+	.side-menu > li.active > a,
+	.side-menu > li > a.active:hover,
+	.side-menu > li.hovered > a {
+		background-color: rgba(0, 0, 0, 0.95);
+		color: #fff;
+		opacity: 1;
+	}
+	.profile-menu > li i {
+		position: absolute;
+		top: 8px;
+		color: #fff;
+	}
+	.profile-menu > li i.right {
+		right: -30px;
+	}
+	.profile-menu > li i.left {
+		left: -30px;
+	}
+	.profile-menu > li:hover i.right {
+		right: 15px;
+	}
+	.profile-menu > li:hover i.left {
+		left: 15px;
+	}
+	/* Common */
+	.tile,
+	.tile-dark,
+	.tile-title,
+	.table th {
+		box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+	}
+}
+

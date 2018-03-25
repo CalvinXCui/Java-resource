@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* CSS Document */
+.btn1{
+	color:#fff;
+	background-color:#FB0F12;
+}
+.btn1:visited{
+	color:#fff;
+	background-color:#706969;
+}
+.btn1:hover{
+	color:#fff;
+	background-color:#706969;
+}
+.btn1:active{
+	color:#fff;
+	background-color:#706969;
+}
+.btn1:focus{
+	color:#fff;
+	background-color:#706969;
+}
